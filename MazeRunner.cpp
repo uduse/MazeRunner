@@ -8,9 +8,10 @@
 int _tmain( int argc, _TCHAR* argv[] )
 {
 	srand( time( NULL ) );
+	//srand( 7 );
 
-	const int row = 20;
-	const int col = 30;
+	const int row = 70;
+	const int col = 120;
 
 	Maze myMaze( row, col );
 	myMaze.print();

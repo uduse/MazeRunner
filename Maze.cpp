@@ -21,10 +21,8 @@ Maze::Maze()
 Maze::Maze( int rowIn, int colIn ):row( nextOdd( rowIn ) ), col( nextOdd( colIn ) ), numNodes( 0 ), numEdges( 0 )
 {
 	makeBlocks();
-
 	generate();
 
-	//makeEdges();
 }
 
 Maze::~Maze()
@@ -52,7 +50,7 @@ void Maze::generate()
 	todo.push_back( &map[startRow][startCol] );
 
 	int visitedCount = 0;
-	while ( visitedCount < numEdges )
+	while ( visitedCount < numNodes && !todo.empty() )
 	{
 		int randIndex = rand() % todo.size();
 		bool newVisit = visitAdj( todo[randIndex] );
@@ -62,11 +60,8 @@ void Maze::generate()
 		}
 		else
 		{
-			if ( todo.size() > 1 )
-			{
-				swap( todo[randIndex], todo[todo.size() - 1] );
-				todo.pop_back();
-			}
+			swap( todo[randIndex], todo[todo.size() - 1] );
+			todo.pop_back();
 		}
 	}
 
@@ -109,81 +104,69 @@ bool Maze::visitAdj( Block* source )
 		case 0:
 
 			// Up
-			if ( upRow > 0 && upRow < row )
+			if ( upRow > 0 && upRow < row && !map[upRow][upCol].visited )
 			{
-				if ( !map[upRow][upCol].visited )
-				{
-					map[upEdgeRow][upEdgeCol].visited = true;
-					map[upEdgeRow][upEdgeCol].solid = false;
-					map[upRow][upCol].visited = true;
-					map[upRow][upCol].solid = true;
-					todo.push_back( &map[upRow][upCol] );
-					return true;
-				}
-				else
-				{
-					upBlocked = true;
-				}
+				map[upEdgeRow][upEdgeCol].visited = true;
+				map[upEdgeRow][upEdgeCol].solid = false;
+				map[upRow][upCol].visited = true;
+				map[upRow][upCol].solid = false;
+				todo.push_back( &map[upRow][upCol] );
+				return true;
+			}
+			else
+			{
+				upBlocked = true;
 			}
 
 			break;
 		case 1:
 			// Down
-			if ( downRow > 0 && downRow < row )
+			if ( downRow > 0 && downRow < row && !map[downRow][downCol].visited )
 			{
-				if ( !map[downRow][downCol].visited )
-				{
-					map[downEdgeRow][downEdgeCol].visited = true;
-					map[downEdgeRow][downEdgeCol].solid = false;
-					map[downRow][downCol].visited = true;
-					map[downRow][downCol].solid = true;
-					todo.push_back( &map[downRow][downCol] );
-					return true;
-				}
-				else
-				{
-					downBlocked = true;
-				}
+				map[downEdgeRow][downEdgeCol].visited = true;
+				map[downEdgeRow][downEdgeCol].solid = false;
+				map[downRow][downCol].visited = true;
+				map[downRow][downCol].solid = false;
+				todo.push_back( &map[downRow][downCol] );
+				return true;
+			}
+			else
+			{
+				downBlocked = true;
 			}
 
 			break;
 		case 2:
 			// Left
-			if ( leftRow > 0 && leftRow < row )
+			if ( leftCol > 0 && leftCol < col && !map[leftRow][leftCol].visited )
 			{
-				if ( !map[leftRow][leftCol].visited )
-				{
-					map[leftEdgeRow][leftEdgeCol].visited = true;
-					map[leftEdgeRow][leftEdgeCol].solid = false;
-					map[leftRow][leftCol].visited = true;
-					map[leftRow][leftCol].solid = true;
-					todo.push_back( &map[leftRow][leftCol] );
-					return true;
-				}
-				else
-				{
-					leftBlocked = true;
-				}
+				map[leftEdgeRow][leftEdgeCol].visited = true;
+				map[leftEdgeRow][leftEdgeCol].solid = false;
+				map[leftRow][leftCol].visited = true;
+				map[leftRow][leftCol].solid = false;
+				todo.push_back( &map[leftRow][leftCol] );
+				return true;
+			}
+			else
+			{
+				leftBlocked = true;
 			}
 
 			break;
 		case 3:
 			// Right
-			if ( rightRow > 0 && rightRow < row )
+			if ( rightCol > 0 && rightCol < col && !map[rightRow][rightCol].visited )
 			{
-				if ( !map[rightRow][rightCol].visited )
-				{
-					map[rightEdgeRow][rightEdgeCol].visited = true;
-					map[rightEdgeRow][rightEdgeCol].solid = false;
-					map[rightRow][rightCol].visited = true;
-					map[rightRow][rightCol].solid = true;
-					todo.push_back( &map[rightRow][rightCol] );
-					return true;
-				}
-				else
-				{
-					rightBlocked = true;
-				}
+				map[rightEdgeRow][rightEdgeCol].visited = true;
+				map[rightEdgeRow][rightEdgeCol].solid = false;
+				map[rightRow][rightCol].visited = true;
+				map[rightRow][rightCol].solid = false;
+				todo.push_back( &map[rightRow][rightCol] );
+				return true;
+			}
+			else
+			{
+				rightBlocked = true;
 			}
 			break;
 		default:
@@ -247,59 +230,9 @@ void Maze::print()
 			{
 				cout << " ";
 			}
-			//if ( map[i][j].isNode )
-			//{
-			//	cout << "+";
-			//}
-			//else if ( map[i][j].isEdge )
-			//{
-			//	cout << "+";
-			//}
-			//else
-			//{
-			//	cout << " ";
-			//}
 		}
 		cout << endl;
 	}
 }
 
 ////  Graveyard  ///////////////////////////////////////
-
-void Maze::connectAdj( Block* source )
-{
-	// Up
-	if ( source->row > 0 && source->row < row )
-	{
-		source->adjacent.push_back( &map[source->row - 1][source->col] );
-	}
-
-	// Down
-	if ( source->row >= 0 && source->row < row - 1 )
-	{
-		source->adjacent.push_back( &map[source->row + 1][source->col] );
-	}
-
-	// Left
-	if ( source->col > 0 && source->col < col )
-	{
-		source->adjacent.push_back( &map[source->row][source->col - 1] );
-	}
-
-	// Right
-	if ( source->col >= 0 && source->col < col - 1 )
-	{
-		source->adjacent.push_back( &map[source->row][source->col + 1] );
-	}
-}
-
-void Maze::makeEdges()
-{
-	for ( int i = 0; i < row; i++ )
-	{
-		for ( int j = 0; j < col; j++ )
-		{
-			connectAdj( &map[i][j] );
-		}
-	}
-}
