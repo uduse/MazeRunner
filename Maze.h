@@ -17,6 +17,7 @@ public:
 	bool isNode;
 	bool isEdge;
 	bool visited;
+
 	vector<Block*> adjacent;
 };
 
@@ -28,18 +29,24 @@ public:
 
 
 	void print();
-	
+
 	~Maze();
 
 private:
 	int row;
 	int col;
+	int numNodes;
+	int numEdges;
 
 	Block** map;
+
+	vector<Block*> todo;
 
 	void makeBlocks();
 	void makeEdges();
 	void generate();
 	void connectAdj( Block* source );
+	bool visitAdj( Block* source );
+
 };
 
