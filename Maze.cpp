@@ -48,11 +48,16 @@ void Maze::generate()
 	}
 
 	todo.push_back( &map[startRow][startCol] );
+	//todo.push_back( &map[row-2][col-2] );
 
 	int visitedCount = 0;
 	while ( visitedCount < numNodes && !todo.empty() )
 	{
 		int randIndex = rand() % todo.size();
+		if ( rand() % 2 == 0 )
+		{
+			randIndex = todo.size() - 1;
+		}
 		bool newVisit = visitAdj( todo[randIndex] );
 		if ( newVisit )
 		{

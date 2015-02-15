@@ -1,4 +1,4 @@
-﻿Build started 2/15/2015 12:30:11 PM.
+﻿Build started 2/15/2015 9:42:59 AM.
      1>Project "Y:\GD\UCD\CS Club\Club Programming\MazeRunner\MazeRunner.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          X:\VS\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\MazeRunner.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Maze.cpp
@@ -12,4 +12,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.85
+Time Elapsed 00:00:01.04
